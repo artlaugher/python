@@ -1,5 +1,4 @@
 # 65 - 71 is the range of the scale A-G via ord()
-# I think notes also needs to be a class so that we can pass accidentals around easier
 import unicodedata
 
 
