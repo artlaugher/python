@@ -1,4 +1,8 @@
-# 65 - 71 is the range of the scale A-G via ord()
+# This program can accept a root note and a chord quality (Maj, Min, Dom, Dim, Min7b5, Aug)
+# Using those inputs it will write any standard diatonic 7th chord for you!
+# (still needs better UI, you have to know what to type or it'll crash)
+# This program uses two classes (Note and Chord) and has no global state!
+
 import unicodedata
 
 
@@ -19,19 +23,19 @@ class Note:
 
 class Chord:
     def __init__(self, r, q):
-        self.qualities = {"Maj": [4,3,4],
-                          "Min": [3,4,3],
-                          "Aug": [4,4,3],
-                          "Dim": [3,3,3],
-                          "Dom": [4,3,3]
+        self.qualities = {"Maj": [4, 3, 4],
+                          "Min": [3, 4, 3],
+                          "Aug": [4, 4, 3],
+                          "Dim": [3, 3, 3],
+                          "Dom": [4, 3, 3],
+                          "Min7b5": [3, 3, 4]
                           }
         self.intervals = self.qualities[q]
         self.name = r.name + q
         self.root = r
-        # print('making note: ',self.root.letter, self.root.accidental[1],' in chord', self.name)
         self.third = next_third(self.root.letter, self.root.accidental[1], self.intervals[0])
-        # print('making note: ', self.third.letter, self.third.accidental[1], ' in chord', self.name)
-        self.fifth = next_third(self.third.letter,self.third.accidental[1], self.intervals[1])
+        self.fifth = next_third(self.third.letter, self.third.accidental[1], self.intervals[1])
+        self.seventh = next_third(self.fifth.letter, self.fifth.accidental[1], self.intervals[2])
 
 
 def build_note(input):
@@ -39,8 +43,7 @@ def build_note(input):
         if input[1] == '#':
             return Note(input[0], "1")
         elif input[1].upper() == 'B':
-            return Note(input[0], "-2")
-
+            return Note(input[0], "-1")
     else:
         return Note(input[0], "0")
 
@@ -63,8 +66,7 @@ def build_chromatic_scale(start):
     return scale
 
 
-def next_third(note, accidental=0, interval=4):
-
+def next_third(note, accidental, interval):
     # find the next letter
     n = ord(note)
     if n + 2 > 71:
@@ -73,19 +75,16 @@ def next_third(note, accidental=0, interval=4):
         t = n + 2
     # determine sharpness or flatness
     scale = build_chromatic_scale(note)
-    # print(scale)
+    print(scale)
     scale_interval = scale.index(chr(t)) - scale.index(note) - accidental
-    # print('scale interval {}  interval {}'.format(scale_interval, interval))
-    if scale_interval < interval:
+    print('scale interval {}  interval {}'.format(scale_interval, interval))
+    if scale_interval != interval:
         key = (interval - scale_interval)
-
-    elif scale_interval > interval:
-        key = (scale_interval - interval)
-
     else:
         key = 0
-    newNote = Note(chr(t), str(key))
-    return newNote
+    print("key", key)
+    newnote = Note(chr(t), str(key))
+    return newnote
 
 
 if __name__ == '__main__':
@@ -99,10 +98,9 @@ if __name__ == '__main__':
             rootNote = build_note(selection)
             quality = input("what kind of chord?")
             newChord = Chord(rootNote, quality)
-            print(rootNote.name)
-            print(rootNote.accidental)
-            print(rootNote.letter)
+                                   
             print(newChord.name)
-            print(newChord.root.name)
-            print(newChord.third.name)
-            print(newChord.fifth.name)
+            print("root: ", newChord.root.name)
+            print("third: ", newChord.third.name)
+            print("fifth: ", newChord.fifth.name)
+            print("seventh: ", newChord.seventh.name)
