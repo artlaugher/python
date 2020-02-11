@@ -39,4 +39,55 @@ def polygon(turt, length, sides):
         turt.rt(360/sides)
 
 
+def circle(turt, radius):
+    """
+    draw a circle with a given radius
+    :param turt:
+    :param radius:
+    :return:
+    """
+    circ = 2 * radius * 3.14159
+    turt.pu()
+    turt.goto(0, 100)
+    turt.pd()
+    for s in range(0, 720):
+        turt.forward(circ/720)
+        turt.rt(0.5)
+
+
+def circles(turt, radius):
+    """
+    draw a fun recursive circle / cone shape
+    :param turt:
+    :param radius:
+    :return:
+    """
+    circ = 2 * radius * 3.14159
+    turt.pu()
+    turt.goto(0, 100)
+    turt.pd()
+    for s in range(0, 720):
+        turt.forward(circ/720)
+        turt.rt(0.5)
+    if radius > 5:
+        circles(turt,radius - 5)
+
+
+def arc(turt, radius, degrees):
+    """
+    draw an arc of radius and angle in degrees
+    """
+    circ = 2 * radius * 3.14159
+    turt.pu()
+    turt.goto(0, 100)
+    turt.pd()
+    for s in range(0, degrees*2):
+        turt.forward(circ/720)
+        turt.rt(0.5)
+
+
+# tom = turtle.Turtle()
+
+# arc(tom, 75, 45)
+
 turtle.mainloop()
