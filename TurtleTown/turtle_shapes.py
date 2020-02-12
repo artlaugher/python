@@ -3,6 +3,7 @@
 # Description: turtle functions that draw fun stuff
 
 import turtle
+import math
 
 
 def draw_squares(jim, x_loc, y_loc, size):
@@ -31,12 +32,31 @@ def polygon(turt, length, sides):
     :param length: length of each side
     :param sides: sides of a polygon
     """
-    turt.pu()
-    turt.goto(0, 100)
-    turt.pd()
+    polyline(turt, length, sides, 360)
+
+
+def polyline(turt, length, sides, angle):
+    """
+    uses a turtle to draw a line of a given length with a given number of sides covering a given angle
+    :param turt:  turtle
+    :param length: length of each side
+    :param sides: sides of a polygon
+    """
     for s in range(0, sides):
-        turt.forward(length)
-        turt.rt(360/sides)
+        turt.forward(length/sides)
+        turt.rt(angle/sides)
+
+
+def left_polyline(turt, length, sides, angle):
+    """
+    uses a turtle to draw a line of a given length with a given number of sides covering a given angle
+    :param turt:  turtle
+    :param length: length of each side
+    :param sides: sides of a polygon
+    """
+    for s in range(0, sides):
+        turt.forward(length / sides)
+        turt.lt(angle / sides)
 
 
 def circle(turt, radius):
@@ -46,13 +66,9 @@ def circle(turt, radius):
     :param radius:
     :return:
     """
-    circ = 2 * radius * 3.14159
-    turt.pu()
-    turt.goto(0, 100)
-    turt.pd()
-    for s in range(0, 720):
-        turt.forward(circ/720)
-        turt.rt(0.5)
+    circ = 2 * radius * math.pi
+    polygon(turt, circ/360, 360)
+
 
 
 def circles(turt, radius):
@@ -62,32 +78,42 @@ def circles(turt, radius):
     :param radius:
     :return:
     """
-    circ = 2 * radius * 3.14159
+    circ = 2 * radius * math.pi
     turt.pu()
     turt.goto(0, 100)
     turt.pd()
-    for s in range(0, 720):
-        turt.forward(circ/720)
-        turt.rt(0.5)
+    polygon(turt, circ/360, 360)
     if radius > 5:
-        circles(turt,radius - 5)
+        circles(turt, radius - 5)
 
 
-def arc(turt, radius, degrees):
+def arc(turt, radius, angle):
     """
     draw an arc of radius and angle in degrees
     """
-    circ = 2 * radius * 3.14159
-    turt.pu()
-    turt.goto(0, 100)
-    turt.pd()
-    for s in range(0, degrees*2):
-        turt.forward(circ/720)
-        turt.rt(0.5)
+    circ = 2 * radius * math.pi
+    arc_length = circ / 360 * angle
+    print(arc_length)
+    polyline(turt, arc_length, angle, angle)
 
 
-# tom = turtle.Turtle()
+def turtleflower(simon, length):
 
-# arc(tom, 75, 45)
+    polyline(simon, 100, 100, 90)
+    simon.rt(180)
+    left_polyline(simon, 100, 100, 180)
+
+
+
+
+tom = turtle.Turtle()
+
+turtleflower(tom, 15)
+
+# circle(tom,52)
+
+#arc(tom, 50, 270)
+
+
 
 turtle.mainloop()
