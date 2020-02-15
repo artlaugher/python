@@ -93,26 +93,40 @@ def arc(turt, radius, angle):
     """
     circ = 2 * radius * math.pi
     arc_length = circ / 360 * angle
-    print(arc_length)
     polyline(turt, arc_length, angle, angle)
 
 
-def turtleflower(simon, length):
+def flower_petal(simon, length):
+    """
+    function that draws each petal of a flower shape with turtle
+    :param simon:  Turtle object
+    :param length:
+    :return:
+    """
+    arc(simon, length, 90)
+    simon.rt(90)
+    arc(simon, length, 90)
 
-    polyline(simon, 100, 100, 90)
-    simon.rt(180)
-    left_polyline(simon, 100, 100, 180)
 
-
+def turtle_flower(simon, length, petals):
+    """
+    draw a flower shape with a turtle
+    :param simon:  Turtle object
+    :param length: length of each flower petal
+    :param petals: number of petals to draw
+    :return:
+    """
+    n = simon.heading()
+    angle = 360 / petals
+    for p in range(0, petals):
+        simon.setheading(n)
+        flower_petal(simon, length)
+        n -= angle
 
 
 tom = turtle.Turtle()
 
-turtleflower(tom, 15)
-
-# circle(tom,52)
-
-#arc(tom, 50, 270)
+turtle_flower(tom, 300, 9)
 
 
 
