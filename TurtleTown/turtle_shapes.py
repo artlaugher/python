@@ -124,9 +124,69 @@ def turtle_flower(simon, length, petals):
         n -= angle
 
 
-tom = turtle.Turtle()
+def neuron(t, length, n):
+    if n == 0:
+        return
+    angle = 50
+    t.fd(length*n)
+    t.lt(angle)
+    draw(t, length, n-1)
+    t.rt(2*angle)
+    draw(t, length, n-1)
+    t.lt(angle)
+    t.bk(length*n)
 
-turtle_flower(tom, 300, 9)
+
+def koch(t, length):
+    if length < 3:
+        t.fd(length)
+        return
+    angle = 60
+    t.fd(length/3)
+    t.lt(angle)
+    t.fd(length / 3)
+    t.rt(angle * 2)
+    t.fd(length/3)
+    t.lt(angle)
+    t.fd(length/3)
+    t.rt(angle * 2)
+    koch(t, length-1)
+
+
+def koch_c(t, length):
+    if length < 3:
+        return
+    angle = 60
+    t.fd(length/3)
+    t.lt(angle)
+    t.fd(length / 3)
+    t.rt(angle * 2)
+    t.fd(length/3)
+    t.lt(angle)
+    t.fd(length/3)
+
+
+def koch_curve(t, length):
+    """
+    draw a koch curve of or given length
+    :param t: turtle object
+    :param length: total length of curve
+    :return: none
+    """
+    if length < 3:
+        t.fd(length)
+        return
+    angle = 60
+    koch_curve(t,length/3)
+    t.lt(angle)
+    koch_curve(t, length / 3)
+    t.rt(angle * 2)
+    koch_curve(t, length / 3)
+    t.lt(angle)
+    koch_curve(t, length / 3)
+
+
+tom = turtle.Turtle()
 
 
 
